@@ -50,6 +50,7 @@ ALTER TABLE practica_sql_calzadilla.modelo
 CREATE TABLE practica_sql_calzadilla.poliza(
 	id_poliza VARCHAR (10) NOT NULL,   	-- PK
 	nombre VARCHAR (256) NOT NULL,
+	numero INTEGER NOT NULL,
 	cobertura NUMERIC (5,2) NOT NULL,   	-- NÚMERIC PARA HACER USO DE MAYOR PRECISIÓN Y EVITAR RANGOS GIGANTES DE CIFRAS
 	descripcion VARCHAR (512) NULL
 );
@@ -83,19 +84,6 @@ ALTER TABLE practica_sql_calzadilla.color
 	ADD CONSTRAINT id_color_PK PRIMARY KEY (id_color);
 	
 
--- NO TIENE MAYOR INCIDENCIA EN LA CONSULTA
---	***********************************************
----  QUERY  :	CREACIÓN TABLA 'FECHA_BAJA'
-CREATE TABLE practica_sql_calzadilla.fecha_baja(
-	id_fecha_baja VARCHAR (10) NOT NULL,   	-- PK
-	baja DATE NOT NULL DEFAULT '4000-01-01',
-	motivo VARCHAR (512) NULL
-);
-
----  QUERY  :	DEFINICIÓN DE PRIMARY KEY, TABLA 'FECHA_BAJA'
-ALTER TABLE practica_sql_calzadilla.fecha_baja
-	ADD CONSTRAINT id_fecha_baja_PK PRIMARY KEY (id_fecha_baja);
-
 
 --	*******			ENTIDAD COCHE		******
 
@@ -109,7 +97,7 @@ CREATE TABLE practica_sql_calzadilla.coche(
 	dt_compra DATE NOT NULL DEFAULT '4000-01-01',
 	modelo VARCHAR (10) NOT NULL,		-- FK
 	color VARCHAR (10) NOT NULL,		-- FK
-	dt_baja VARCHAR (10) NULL   	-- FK
+	dt_baja DATE NOT NULL DEFAULT '4000-01-01'
 );
 
 ---  QUERY  :	DEFINICIÓN DE PRIMARY KEY, TABLA 'COCHE'
@@ -118,8 +106,8 @@ ALTER TABLE practica_sql_calzadilla.coche
 	ADD CONSTRAINT aseguradora_FK FOREIGN KEY (aseguradora) REFERENCES practica_sql_calzadilla.aseguradora(id_aseguradora),
 	ADD CONSTRAINT poliza_FK FOREIGN KEY (poliza) REFERENCES practica_sql_calzadilla.poliza(id_poliza),
 	ADD CONSTRAINT modelo_FK FOREIGN KEY (modelo) REFERENCES practica_sql_calzadilla.modelo(id_modelo),
-	ADD CONSTRAINT color_FK FOREIGN KEY (color) REFERENCES practica_sql_calzadilla.color(id_color),
-	ADD CONSTRAINT dt_baja_FK FOREIGN KEY (dt_baja) REFERENCES practica_sql_calzadilla.fecha_baja(id_fecha_baja);
+	ADD CONSTRAINT color_FK FOREIGN KEY (color) REFERENCES practica_sql_calzadilla.color(id_color);
+	--ADD CONSTRAINT dt_baja_FK FOREIGN KEY (dt_baja) REFERENCES practica_sql_calzadilla.fecha_baja(id_fecha_baja);
 	
 
 ---  QUERY  :	CREACIÓN TABLA 'IMPORTE'
@@ -200,10 +188,10 @@ INSERT INTO practica_sql_calzadilla.modelo
 		   
 ---  QUERY  :	INSERCIÓN DATOS  TABLA 'PÓLIZA'
 INSERT INTO practica_sql_calzadilla.poliza 
-	VALUES ('P01', 'TOTAL', 100.000, ''),
-		   ('P02', 'TERCEROS', 50.000, ''),
-		   ('P03', 'TERCEROS AMPLIADA', 70.000, ''),
-		   ('P04', 'TODO RIESGO FRANQUICIA', 110.000, '');
+	VALUES ('P01', 'TOTAL', 101, 100.000, ''),
+		   ('P02', 'TERCEROS', 102,50.000, ''),
+		   ('P03', 'TERCEROS AMPLIADA', 103, 70.000, ''),
+		   ('P04', 'TODO RIESGO FRANQUICIA', 104, 110.000, '');
 	
 
 ---  QUERY  :	INSERCIÓN DATOS  TABLA 'ASEGURADORA'
@@ -224,10 +212,6 @@ INSERT INTO practica_sql_calzadilla.color
 	       ('C006', 'PLATA', ''),
 	       ('C007', 'TORONJA', '');
 	       
-
----  QUERY  :	INSERCIÓN DATOS  TABLA 'FECHA_BAJA'
-INSERT INTO practica_sql_calzadilla.fecha_baja 
-	VALUES ('B01', '2021-11-11', 'CHOQUE');
 	
 
 ---  QUERY  :	INSERCIÓN DATOS  TABLA 'COCHE'
@@ -241,10 +225,11 @@ INSERT INTO practica_sql_calzadilla.coche  (id_coche, matricula, kilometros_tota
 		   ('C08', 'H123', 77800, 'A01', 'P04', '2022-08-23', 'M08', 'C007'),
 		   ('C09', 'I123', 221940, 'A02', 'P03', '2019-12-01', 'M09', 'C003'),
 		   ('C10', 'J123', 30800, 'A03', 'P04', '2022-02-28', 'M010', 'C002');
-		   
+
+		  
 ---  QUERY  :	INSERCIÓN DATOS  TABLA 'COCHE' CON EL ATRIBUTO 'BAJA'
 INSERT INTO practica_sql_calzadilla.coche 
-	VALUES ('C05', 'E123', 300.500, 'A05', 'P02', '2007-09-23', 'M05', 'C005', 'B01');
+	VALUES ('C05', 'E123', 300.500, 'A05', 'P02', '2007-09-23', 'M05', 'C005', '2021-11-11');
 	
 
 ---  QUERY  :	INSERCIÓN DATOS  TABLA 'MONEDA'
