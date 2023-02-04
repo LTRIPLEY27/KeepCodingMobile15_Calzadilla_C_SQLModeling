@@ -7,7 +7,7 @@ Práctica  :    Módulo SQL
 
 
 
-<div align = "center"># Práctica de Modelado y SQL  </div>
+<div align = "center"><h1>Práctica de Modelado y SQL  <h1></div>
 
 
 
